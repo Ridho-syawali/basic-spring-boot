@@ -35,22 +35,6 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCategoryById(@PathVariable("id") Long id) {
-        try {
-            CategoryResponse response = categoryService.findById(id);
-            return ResponseEntity
-                    .status(HttpStatus.OK.value())
-                    .body(new ApiResponse<>(HttpStatus.OK.value(), response));
-        } catch (DataNotFoundException e) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND.value())
-                    .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(), e.getMessage()));
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                    .body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()));
-        }
-    }
 
     @PostMapping
     public ResponseEntity<?> createCategory(@RequestBody CategoryRequest categoryRequest) {

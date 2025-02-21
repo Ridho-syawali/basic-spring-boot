@@ -6,6 +6,7 @@ import com.example.todolist.dto.request.CategoryRequest;
 import com.example.todolist.dto.response.CategoryResponse;
 import com.example.todolist.model.Category;
 import com.example.todolist.repository.CategoryRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ public class CategoryService {
         }
     }
 
+    @Transactional
     public CategoryResponse create(CategoryRequest categoryRequest){
         try{
            if (categoryRepository.findByName(categoryRequest.getName()).isPresent()){
@@ -48,6 +50,20 @@ public class CategoryService {
         }
     }
 
+
+    public CategoryResponse findById(Long id){
+        try{
+            return categoryRepository.findById(id)
+                    .map(this::convertToResponse)
+                    .orElseThrow(() -> new DataNotFoundException("Category with ID " + id + " not found"));
+        } catch (DataNotFoundException e){
+            throw e;
+        } catch (Exception e){
+            throw new RuntimeException("Failed to get category by id", e);
+        }
+    }
+
+    @Transactional
     public CategoryResponse update(Long id, CategoryRequest categoryRequest){
         try{
             Category category = categoryRepository.findById(id)

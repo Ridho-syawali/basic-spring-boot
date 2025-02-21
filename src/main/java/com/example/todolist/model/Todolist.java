@@ -22,16 +22,18 @@ public class Todolist {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "user_id", nullable = false)
-    private UUID userId;
+    @ManyToOne(fetch = FetchType.EAGER) // untuk mengambil data secara otomatis
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users users;
 
-    @Column(name = "category_id", nullable = false)
-    private int categoryId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @Column(name = "is_completed")
-    private boolean isCompleted = false;
+    private Boolean isCompleted = false;
 
-    @Column(name = "deleted_at", nullable = true)
+    @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
     @Column(name = "created_at", updatable = false)
@@ -51,4 +53,6 @@ public class Todolist {
         this.updatedAt = LocalDateTime.now();
     }
 
+    @Column(name = "image_path")
+    private String imagePath;
 }

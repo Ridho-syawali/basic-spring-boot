@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Table(name = "users")
 public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private UUID id;
 
     @Column(name = "username", nullable = false)
@@ -35,6 +36,9 @@ public class Users {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    private List<Todolist> todolist;
 
     @PrePersist // anotasi untuk membuat data secara otomatis ketika data pertama kali dibuat
     public void onCreate() {
